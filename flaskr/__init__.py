@@ -6,13 +6,11 @@ from datetime import timedelta
 
 from flask_mail import Mail
 
-from flask_wtf.csrf import CSRFProtect
 
 import sys
 sys.path.append(os.path.join('..'))
 
 
-csrf = CSRFProtect()
 
 def create_app(test_config=None):
     # create and configure the app
