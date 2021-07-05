@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}SIGN UP{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <h1>登録</h1>
+    <p><a href="{{ url_for('auth.register_guest') }}">・学外の方はこちらから</a></p>
+    <br />
+  </div>
+  <div class="col-md-8">
+    <form method="post">
+      <div class="form-group">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="RadioGender" id="RadioM" value="M" required>
+          <label class="form-check-label" for="RadioM">男</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="RadioGender" id="RadioF" value="F">
+          <label class="form-check-label" for="RadioF">女</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="age">年齢</label>
+        <div class="row">
+          <div class="col-6 col-sm-3"><input type="text" class="form-control" name="age" id="age" required></div>
+          <div class="col-6 col-sm-3">歳</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="username">氏名</label>
+        <input type="text" class="form-control" name="username" id="username" aria-describedby="usernameHelp" placeholder="Enter your name." required>
+        <small id="usernameHelp" class="form-text text-muted">例:福岡太郎</small>
+      </div>
+      <div class="form-group">
+        <label for="fit_id">学籍番号</label>
+        <input type="text" class="form-control" name="fit_id" id="fit_id" aria-describedby="fitIdHelp" placeholder="Enter your student number." required>
+        <small id="fitIdHelp" class="form-text text-muted">例:18f0000 半角入力でお願いします。</small>
+      </div>
+      <div class="form-group">
+        <label for="password">パスワード</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Password" aria-describedby="passwordHelp" required>
+        <small id="passwordHelp" class="form-text text-muted">パスワードは、半角英小文字大文字数字をそれぞれ1種類以上含む5文字以上100文字以下で入力してください。</small>
+      </div>
+      <div class="form-group">
+        <label for="password">パスワード再確認</label>
+        <input type="password" class="form-control" name="password_c" id="password_c" placeholder="Password" aria-describedby="password_c_Help" required>
+        <small id="password_c_Help" class="form-text text-muted">もう1度パスワードを入力してください。</small>
+      </div>
+      <button type="submit" class="btn btn-primary">登録</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

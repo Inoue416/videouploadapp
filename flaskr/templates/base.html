@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja" class="h-100">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Jekyll v3.8.5">
+  <title>{% block title %}{% endblock %} - Upload App</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <style>
+      body {
+          font-family: 'Nunito', sans-serif;
+      }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body class="d-flex flex-column h-100">
+  <header style="margin-bottom: 70px;">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+       <h3><a class="navbar-brand" href="{{ url_for('upload.index') }}">Upload App</a></h3>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          {% if g.user %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('upload.tweet_list')}}">TWEET</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('upload.ita_list')}}">ITA</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('upload.introduction')}}">INTRODUCTION</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.logout')}}">LOG OUT</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.register')}}">SIGN UP</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.login') }}">LOG IN</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('upload.introduction')}}">INTRODUCTION</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="row">
+      <div class="col-md-8">
+        {% for category, message in messages %}
+        <div class="{{ category }}" role="alert">{{ message }}</div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+  <!--<div class="flash alert alert-success" role="alert">
+    A simple success alert—check it out!
+  </div>-->
+    {% block content %}{% endblock %}
+
+    <footer class="fixed-bottom text-center">
+      <div class="container">
+        <span class="text-muted">&copy;2021 YuyaInoue </span>
+      </div>
+    </footer>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+</html>

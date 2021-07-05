@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}ITA LIST{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+      {% if not filter %}
+      以下の項目から、アップロードする動画のフォルダを選んでください。<br />
+      (<b> * 動画はなるべく、3秒以内におさめてください</b>)<br />
+      {% endif %}
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-8">
+      {% if not filter %}
+      {{ pagination.info }}
+      {{ pagination.links }}
+      <ul class="list-group">
+        {% for d in data %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{{ url_for('upload.upload_ita', file_id=d['file_id']) }}">{{ d['file_title'] }}<br />
+                  ({{ d['kana'] }})</a>
+                <span class="badge badge-primary badge-pill">{{ d['num'] }}</span>
+              </li>
+        {% endfor %}
+      </ul>
+      <br />
+      {{ pagination.links }}
+      {% else %}
+      ご協力ありがとうございました。<br />
+      {{ g.user['username'] }}さんは、すでに全ての項目の動画をアップロードしています。
+      {% endif %}
+    </div>
+</div>
+{% endblock%}

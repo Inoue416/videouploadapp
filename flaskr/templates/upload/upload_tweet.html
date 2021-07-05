@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}UPLOAD TWEET{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <h1>動画アップロード</h1><br/>
+  </div>
+  <div class="col-md-8">
+    <h5>読み上げ文章 :</h5>
+    <h5><strong>{{ data['file_title'] }}</strong></h5>
+    <br />
+    <h5>読みがな:</h5>
+    <h5><strong>{{ data['kana'] }}</strong></h5><br />
+    <form method="post" action="{{ url_for('upload.save_tweet', file_id=file_id) }}" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="video"><動画アップロード></label>
+        <input type="file" class="form-control-file" name="video" id="video" aria-describedby="videoHelp" accept="video/*" required>
+        <small id="videoHelp" class="form-text text-muted">アップロードはよく内容を確認してからお願いします。</small>
+      </div>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">アップロード</button>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">本当によろしいですか?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              アップロード内容は正しいですか?<br />
+              (アップロード完了まで少し時間がかかることがありますので、アプリを閉じずにお待ちください。)
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+              <button type="submit" class="btn btn-primary">確認</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

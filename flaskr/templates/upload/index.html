@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}INDEX{% endblock %}
+
+{% block content %}
+{% if g.user %}
+<div class="row">
+    <div class="col-md-8">
+      <p>
+      ようこそ、{{ g.user['username'] }}さん<br />
+      <a href="{{ url_for('upload.introduction') }}">アプリの使用方法はINTRODUCTIONから</a>
+      <br />
+      &emsp;上記の「TWEET」・「ITA」の項目を選択いただきますと、動画の読み上げ文が表示されます。<br />
+      その文を読み上げた動画を、各項目へアップロード、よろしくお願いします。<br />
+      <br />
+      </p>
+    </div>
+</div>
+{% else %}
+<div class="row">
+  <div class="col-md-8">
+    <p>
+      &emsp;アクセスいただき、誠にありがとうございます。<br />
+      まず、僕の研究に協力していただける事、心より感謝申し上げます。<br />
+      <br />
+      (アプリの不具合を発見された場合も、このメールアドレスへご連絡いただけると幸いです。)
+    </p>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md-8">
+    <p><a href="{{ url_for('upload.introduction') }}">アプリの使用方法はINTRODUCTIONから</a></p>
+    <p>アカウントをお持ちの方は、ログインボタンからログインしてください。
+    アカウントをお持ちでない方は、サインアップから登録してください。</p><br />
+    <a class="btn btn-outline-primary" href="{{ url_for('auth.register') }}">サインアップ</a>
+    <a class="btn btn-outline-secondary" href="{{ url_for('auth.login') }}">ログイン</a>
+  </div>
+</div>
+{% endif %}
+{% endblock%}
