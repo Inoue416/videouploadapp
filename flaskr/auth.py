@@ -176,8 +176,11 @@ def login():
             session.permanent = True
             session['user_id'] = user['id']
             flash('ログインしました。', "alert alert-success")
+            cur = get_db()
+            cur.execute('SELECT * FROM users WHERE id = %s', (user_id,))
+            g.user = cur.fetchone()
             close_db()
-            return redirect(url_for('index'))
+            return redirect(url_for('upload.index'))
 
         flash(error, "alert alert-danger")
         close_db()
@@ -260,20 +263,19 @@ def new_pass():
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
-
     if user_id is None:
-            g.user = None
+        g.user = None
     else:
         cur = get_db()
         cur.execute('SELECT * FROM users WHERE id = %s', (user_id,))
-        g.user =cur.fetchone()
+        g.user = cur.fetchone()
         close_db()
 
 @bp.route('/logout')
 def logout():
     session.clear()
     flash('ログアウトしました。', "alert alert-success")
-    return redirect(url_for('index'))
+    return redirect(url_for('upload.index'))
 
 def login_required(view):
     @functools.wraps(view)
