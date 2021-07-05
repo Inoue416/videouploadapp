@@ -8,11 +8,11 @@ from psycopg2.extras import DictCursor
 def get_db():
     if 'conn' not in g:
         g.conn = psycopg2.connect(
-            database='flaskr',
-            user='inoueyuya',
-            #ppassword='inoue0811',
-            #host='127.0.0.1',
-            #port='5000'
+            database='d7u0nfp69rado0',
+            user='csxvjmyqhnxgmw',
+            password='9a2194e3c025af1532adf82b3ad4d5aec4b9e9bd561954d87b8aef52fe4b5a7d',
+            host='ec2-3-89-0-52.compute-1.amazonaws.com',
+            port='5432'
         )
         g.cur = g.conn.cursor(cursor_factory=DictCursor)
     return g.cur
