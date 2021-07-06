@@ -176,11 +176,8 @@ def login():
             session.permanent = True
             session['user_id'] = user['id']
             flash('ログインしました。', "alert alert-success")
-            cur = get_db()
-            cur.execute('SELECT * FROM users WHERE id = %s', (user['id'],))
-            g.user = cur.fetchone()
             close_db()
-            return redirect(url_for('upload.index'))
+            return redirect('/')
 
         flash(error, "alert alert-danger")
         close_db()

@@ -43,12 +43,12 @@ def create_app(test_config=None):
     app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
 
     # mailの設定
-    app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
-    app.config['MAIL_PORT'] = 587
-    app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USERNAME'] = 'apikey'
-    app.config['MAIL_PASSWORD'] = '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'
-    app.config['MAIL_DEFAULT_SENDER'] = 's18f1005@bene.fit.ac.jp'
+    app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER')
+    app.config['MAIL_PORT'] = os.environ.get('MAIL_PORT')
+    app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS')
+    app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+    app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+    app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER')
 
     # database
     from . import db
