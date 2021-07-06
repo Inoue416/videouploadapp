@@ -260,6 +260,7 @@ def new_pass():
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
+    print('user_id: {}'.format(user_id))
     if user_id is None:
         g.user = None
     else:
@@ -277,6 +278,7 @@ def logout():
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
+        print('g.user: {}'.format(g.user))
         if g.user is None:
             return redirect(url_for('auth.login'))
 

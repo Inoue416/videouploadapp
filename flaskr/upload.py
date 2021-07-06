@@ -133,7 +133,6 @@ def upload_ita(file_id):
 
 
 @bp.route('/save_tweet/<file_id>', methods=['POST'])
-@login_required
 def save_tweet(file_id):
     if 'video' not in request.files:
         flash('ファイルが選択されていません。', danger)
@@ -169,7 +168,6 @@ def save_tweet(file_id):
     return resp
 
 @bp.route('/save_ita/<file_id>', methods=['POST'])
-@login_required
 def save_ita(file_id):
     if 'video' not in request.files:
         flash('ファイルが選択されていません。', danger)
