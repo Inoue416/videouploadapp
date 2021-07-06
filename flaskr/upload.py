@@ -28,107 +28,112 @@ def introduction():
     return render_template('upload/introduction.html')
 
 @bp.route('/tweet_list')
+@login_required
 def tweet_list():
-    if g.user:
-        filter = False
-        db = get_db()
-        #アップロード状況を取得
-        db.execute('SELECT file_id FROM posts WHERE author_id = %s', (session.get('user_id'),))
-        uploaded = db.fetchall()
-        # ビデオデータベース情報を取得
-        data = db.execute('SELECT * FROM tweets ORDER BY id')
-        data = db.fetchall()
+    #if g.user:
+    filter = False
+    db = get_db()
+    #アップロード状況を取得
+    db.execute('SELECT file_id FROM posts WHERE author_id = %s', (session.get('user_id'),))
+    uploaded = db.fetchall()
+    # ビデオデータベース情報を取得
+    data = db.execute('SELECT * FROM tweets ORDER BY id')
+    data = db.fetchall()
 
-        # フィルタ処理
-        if len(uploaded) >= len(data):
-            filter = True
-        max_age = 60 * 60 * 24
-        expires = int(datetime.now().timestamp()) + max_age
-        i = 0
-        for u in uploaded:
-            for d in data:
-                if u[0] == d[1]:
-                    data.remove(d)
+    # フィルタ処理
+    if len(uploaded) >= len(data):
+        filter = True
+    max_age = 60 * 60 * 24
+    expires = int(datetime.now().timestamp()) + max_age
+    i = 0
+    for u in uploaded:
+        for d in data:
+            if u[0] == d[1]:
+                data.remove(d)
 
-        # ページネーション
-        page_disp_msg = '表示範囲 <b>{start}件 - {end}件 </b> 合計：<b>{total}</b>件'
-        page = request.args.get(get_page_parameter(), type=int, default=1)
-        da = data[(page - 1)*10: page*10]
-        pagination = Pagination(page=page, total=len(data), search=False, per_page=10, css_framework='bootstrap4',display_msg=page_disp_msg)
-        resp = make_response(render_template('upload/tweet_list.html', data=da, filter=filter, pagination=pagination))
-        resp.set_cookie(key='user_id', value=str(session.get('user_id')), max_age=max_age, path=request.path,
-        expires=expires, httponly=True, secure=False)
-        close_db()
-    else:
-        resp = make_response(redirect(url_for('upload.index')))
+    # ページネーション
+    page_disp_msg = '表示範囲 <b>{start}件 - {end}件 </b> 合計：<b>{total}</b>件'
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    da = data[(page - 1)*10: page*10]
+    pagination = Pagination(page=page, total=len(data), search=False, per_page=10, css_framework='bootstrap4',display_msg=page_disp_msg)
+    resp = make_response(render_template('upload/tweet_list.html', data=da, filter=filter, pagination=pagination))
+    resp.set_cookie(key='user_id', value=str(session.get('user_id')), max_age=max_age, path=request.path,
+    expires=expires, httponly=True, secure=False)
+    close_db()
+    """else:
+        resp = make_response(redirect(url_for('upload.index')))"""
     return resp
 
 @bp.route('/ita_list')
+@login_required
 def ita_list():
-    if g.user:
-        filter = False
-        db = get_db()
-        #アップロード状況を取得
-        db.execute('SELECT file_id FROM posts WHERE author_id = %s', (session.get('user_id'),))
-        uploaded = db.fetchall()
-        # ビデオデータベース情報を取得
-        data = db.execute('SELECT * FROM itas ORDER BY id')
-        data = db.fetchall()
+    #if g.user:
+    filter = False
+    db = get_db()
+    #アップロード状況を取得
+    db.execute('SELECT file_id FROM posts WHERE author_id = %s', (session.get('user_id'),))
+    uploaded = db.fetchall()
+    # ビデオデータベース情報を取得
+    data = db.execute('SELECT * FROM itas ORDER BY id')
+    data = db.fetchall()
 
-        # フィルタ処理
-        if len(uploaded) >= len(data):
-            filter = True
-        max_age = 60 * 60 * 24
-        expires = int(datetime.now().timestamp()) + max_age
-        i = 0
-        for u in uploaded:
-            for d in data:
-                if u[0] == d[1]:
-                    data.remove(d)
+    # フィルタ処理
+    if len(uploaded) >= len(data):
+        filter = True
+    max_age = 60 * 60 * 24
+    expires = int(datetime.now().timestamp()) + max_age
+    i = 0
+    for u in uploaded:
+        for d in data:
+            if u[0] == d[1]:
+                data.remove(d)
 
-        # ページネーション
-        page_disp_msg = '表示範囲 <b>{start}件 - {end}件 </b> 合計：<b>{total}</b>件'
-        page = request.args.get(get_page_parameter(), type=int, default=1)
-        da = data[(page - 1)*10: page*10]
-        pagination = Pagination(page=page, total=len(data), search=False, per_page=10, css_framework='bootstrap4',display_msg=page_disp_msg)
-        resp = make_response(render_template('upload/ita_list.html', data=da, filter=filter, pagination=pagination))
-        resp.set_cookie(key='user_id', value=str(session.get('user_id')), max_age=max_age, path=request.path,
-        expires=expires, httponly=True, secure=False)
-        close_db()
-    else:
-        resp = make_response(redirect(url_for('upload.index')))
+    # ページネーション
+    page_disp_msg = '表示範囲 <b>{start}件 - {end}件 </b> 合計：<b>{total}</b>件'
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    da = data[(page - 1)*10: page*10]
+    pagination = Pagination(page=page, total=len(data), search=False, per_page=10, css_framework='bootstrap4',display_msg=page_disp_msg)
+    resp = make_response(render_template('upload/ita_list.html', data=da, filter=filter, pagination=pagination))
+    resp.set_cookie(key='user_id', value=str(session.get('user_id')), max_age=max_age, path=request.path,
+    expires=expires, httponly=True, secure=False)
+    close_db()
+    """else:
+        resp = make_response(redirect(url_for('upload.index')))"""
     return resp
 
 @bp.route('/upload_tweet/<file_id>')
+@login_required
 def upload_tweet(file_id):
-    if g.user:
-        if file_id == None:
-            return redirect(url_for('upload.index'))
-        cur = get_db()
-        cur.execute('SELECT * FROM tweets WHERE file_id = %s', (file_id,))
-        data = cur.fetchone()
-        close_db()
-        resp = make_response(render_template('upload/upload_tweet.html', file_id=file_id, data=data))
-    else:
-        resp = make_response(redirect(url_for('upload.index')))
+    #if g.user:
+    if file_id == None:
+        return redirect(url_for('upload.index'))
+    cur = get_db()
+    cur.execute('SELECT * FROM tweets WHERE file_id = %s', (file_id,))
+    data = cur.fetchone()
+    close_db()
+    resp = make_response(render_template('upload/upload_tweet.html', file_id=file_id, data=data))
+    """else:
+        resp = make_response(redirect(url_for('upload.index')))"""
     return resp
 
 @bp.route('/upload_ita/<file_id>')
+@login_required
 def upload_ita(file_id):
-    if g.user:
-        if file_id == None:
-            return redirect(url_for('upload.index'))
-        cur = get_db()
-        cur.execute('SELECT * FROM itas WHERE file_id = %s', (file_id,))
-        data = cur.fetchone()
-        close_db()
-        resp = make_response(render_template('upload/upload_ita.html', file_id=file_id, data=data))
-    else:
-        resp = make_response(redirect(url_for('upload.index')))
+    #if g.user:
+    if file_id == None:
+        return redirect(url_for('upload.index'))
+    cur = get_db()
+    cur.execute('SELECT * FROM itas WHERE file_id = %s', (file_id,))
+    data = cur.fetchone()
+    close_db()
+    resp = make_response(render_template('upload/upload_ita.html', file_id=file_id, data=data))
+    """else:
+        resp = make_response(redirect(url_for('upload.index')))"""
     return resp
 
 
 @bp.route('/save_tweet/<file_id>', methods=['POST'])
+@login_required
 def save_tweet(file_id):
     if 'video' not in request.files:
         flash('ファイルが選択されていません。', danger)
@@ -164,6 +169,7 @@ def save_tweet(file_id):
     return resp
 
 @bp.route('/save_ita/<file_id>', methods=['POST'])
+@login_required
 def save_ita(file_id):
     if 'video' not in request.files:
         flash('ファイルが選択されていません。', danger)
