@@ -2,8 +2,10 @@ from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 from oauth2client.service_account import ServiceAccountCredentials
 import os
+import json
 
 JSON_FILE = os.environ.get('JSON_FILE')
+JSON_FILE = json.loads(JSON_FILE)
 ID = os.environ.get('ID')
 
 def get_drive():
