@@ -164,6 +164,7 @@ def save_tweet(file_id):
         g.conn.commit()
         flash('アップロードしました。ありがとうございます。', success)
         close_db()
+        os.remove(filename)
         resp = make_response(redirect(url_for('upload.index')))
     return resp
 
