@@ -9,11 +9,15 @@
       ようこそ、{{ g.user['username'] }}さん<br />
       <a href="{{ url_for('upload.introduction') }}">アプリの使用方法はINTRODUCTIONから</a>
       <br />
-      &emsp;上記の「TWEET」・「ITA」の項目を選択いただきますと、動画の読み上げ文が表示されます。<br />
+      &emsp;「TWEET」もしくは「ITA」の項目を選択いただきますと、動画の読み上げ文が表示されます。<br />
       その文を読み上げた顔の映った動画を、各項目へアップロード、よろしくお願いします。<br />
-      ( <b>* なるべく逆光などを避けて、顔を映して頂きますようよろしくお願いします。</b>)<br />
+      ( <b>* なるべく逆光などを避けて、顔を映して頂きますようよろしくお願いします。<br />
+        また、読み上げの際は、読み仮名の方を読み上げてくださいますよう、よろしくお願いします。
+      </b>)<br />
       <br />
       </p>
+      <a class="btn btn-outline-primary" href="{{ url_for('upload.tweet_list') }}">TWEET</a>
+      <a class="btn btn-outline-primary" href="{{ url_for('upload.ita_list') }}">ITA</a>
     </div>
 </div>
 {% else %}

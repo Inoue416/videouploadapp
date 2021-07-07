@@ -2,13 +2,14 @@ from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 from oauth2client.service_account import ServiceAccountCredentials
 import os
+
 JSON_FILE = os.environ.get('JSON_FILE')
 ID = os.environ.get('ID')
 
 def get_drive():
     gauth = GoogleAuth()
     scope = ["https://www.googleapis.com/auth/drive"]
-    gauth.credentials = ServiceAccountCredentials.from_json_keyfile_name(JSON_FILE, scope)
+    gauth.credentials = ServiceAccountCredentials.from_json_keyfile_dict(JSON_FILE, scope)
     drive = GoogleDrive(gauth)
     return drive
 

@@ -3,6 +3,8 @@ from flask import current_app, g
 from flask.cli import with_appcontext
 import psycopg2
 from psycopg2.extras import DictCursor
+import os
+from werkzeug.security import generate_password_hash
 
 
 def get_db():
@@ -34,6 +36,7 @@ def init_db():
 @click.command('setting-data')
 @with_appcontext
 def setting_data_command():
+    print('*** START ***')
     file = open(file='text_data/tweet.txt', mode='r', encoding='utf_8')
     dic = {}
     i=0
@@ -55,8 +58,9 @@ def setting_data_command():
             'INSERT INTO tweets (file_id, file_title, kana, num, created) VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP)',
             (k, v[0], v[1], v[2])
         )
+    print('Tweet commit.')
     g.conn.commit()
-
+    close_db()
     file = open(file='text_data/ita.txt', mode='r', encoding='utf_8')
     dic = {}
     i=0
@@ -78,6 +82,15 @@ def setting_data_command():
             'INSERT INTO itas (file_id, file_title, kana, num, created) VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP)',
             (k, v[0], v[1], v[2])
         )
+    print('ITA commit.')
+    g.conn.commit()
+    close_db()
+
+    cur = get_db()
+    cur.execute("INSERT INTO admins (id, password) VALUES (%s, %s)",
+        (os.environ.get('ADMIN_ID'), generate_password_hash(os.environ.get('ADMIN_PASSWORD')))
+    )
+    print('admins commit.')
     g.conn.commit()
     close_db()
     click.echo('Setting data complete.')

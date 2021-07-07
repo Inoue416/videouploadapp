@@ -18,7 +18,7 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY=os.environ.get('SECRET_KEY'),
         #SECRET_KEY='dev',
-        DATABASE=os.environ.get(('DATABASE_URL') or 'postgres://inoueyuya:127.0.0.1:5000/flaskr')
+        DATABASE=os.environ.get('DATABASE_URL')
         #DATABASE=os.environ.get('postgres://inoueyuya:127.0.0.1:5000/flaskr')
         #DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )

@@ -1,0 +1,32 @@
+{% extends 'base_admin.html' %}
+{% block title %}ADMIN INDEX{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <h1>管理者サイト</h1>
+    <br />
+    {% if g.user %}
+    {% else %}
+    <h3>ログイン</h3>
+    {% endif %}
+  </div>
+  {% if g.user %}
+  <div class="col-md-8">
+    <a href="{{ url_for('auth.admin_reset_pass') }}">パスワードの再設定へ</a>
+  </div>
+  {% else %}
+  <div class="col-md-8">
+    <form method="post">
+      <div class="form-group">
+        <label for="login_id">ID</label>
+        <input type="text" class="form-control" name="login_id" id="login_id" placeholder="id" required>
+        <label for="password">パスワード</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Password" aria-describedby="passwordHelp" required>
+        <br />
+        <button type="submit" class="btn btn-primary">ログイン</button>
+      </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

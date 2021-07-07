@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS admins;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS tweets;
 DROP TABLE IF EXISTS itas;
@@ -12,6 +13,11 @@ CREATE TABLE users (
   gender TEXT NOT NULL,
   age INTEGER NOT NULL,
   PRIMARY KEY (id)
+);
+
+CREATE TABLE admins (
+  id TEXT NOT NULL,
+  password TEXT NOT NULL
 );
 
 CREATE TABLE posts (

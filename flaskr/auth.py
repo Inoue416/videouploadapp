@@ -15,7 +15,6 @@ from itsdangerous.url_safe import URLSafeTimedSerializer
 
 import os
 
-SALT = 'dev'
 
 
 def isalnum(s):
@@ -195,7 +194,7 @@ def send_mail_test():
         if not email:
             flash('メールアドレスが入力されていません。', "alert alert-danger")
             return redirect(url_for('auth.forget_pass'))
-        token = create_token(email, current_app.config['SECRET_KEY'], SALT)
+        token = create_token(email, current_app.config['SECRET_KEY'], os.environ.get('SALT'))
         url = url_for('auth.new_pass', token=token, _external=True)
         mail = Mail(current_app)
         msg = Message('パスワードの再設定', recipients=[email])
@@ -257,12 +256,86 @@ def new_pass():
         close_db()
     return render_template('auth/new_pass.html')
 
+@bp.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if request.method == 'POST':
+        login_id = request.form['login_id'].lower()
+        password = request.form['password']
+        db = get_db()
+        error = None
+        user = None
+        db.execute("SELECT * FROM admins WHERE id = %s", (login_id,))
+        user = db.fetchone()
+        if user is None:
+            error = 'このユーザー名は存在しません。'
+        elif not check_password_hash(user['password'], password):
+            error = 'パスワードが正しくありません。'
+
+        if error is None:
+            #user = user.fetchone().description
+            session.clear()
+            session.permanent = True
+            session['user_id'] = user['id']
+            flash('ログインしました。', "alert alert-success")
+            close_db()
+            return redirect(url_for('auth.admin_reset_pass'))
+        flash(error, "alert alert-danger")
+        close_db()
+    return render_template('auth/admin.html')
+
+@bp.route('/admin_reset_pass', methods=['GET', 'POST'])
+def admin_reset_pass():
+    if g.user:
+        if request.method == "POST":
+            error = None
+            fit_id = request.form['fit_id']
+            password = request.form['password']
+            password_c = request.form['password_c']
+            if not password:
+                error = 'パスワードを入力してください。'
+            elif not fit_id:
+                error = '学籍番号を入力してください。'
+            # 学籍番号の形式の判定
+            if len(fit_id) != 7:
+                error = '正しい形式で学籍番号を入力してください。'
+            if not (password == password_c):
+                error = 'パスワードが一致していません。'
+
+            if not isalnum(fit_id):
+                error = '学籍番号は半角英数字で入力してください。'
+
+            if not pass_vali(password):
+                error = 'パスワード脆弱です。'
+
+            db = get_db()
+            db.execute("SELECT * FROM users WHERE fit_id = %s", (fit_id,))
+            info = db.fetchone()
+            if info is None:
+                error = '{}は存在しません。'.format(fit_id)
+
+            if error is None:
+                db.execute('UPDATE users SET password = %s WHERE fit_id = %s', (generate_password_hash(password), fit_id))
+                g.conn.commit()
+                close_db()
+                flash('パスワードを再設定しました。', "alert alert-success")
+                return redirect(url_for('auth.admin'))
+            flash(error, "alert alert-danger")
+            close_db()
+    else:
+        return redirect(url_for('auth.admin'))
+    return render_template('auth/admin_reset_pass.html')
+
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
     print('user_id: {}'.format(user_id))
     if user_id is None:
         g.user = None
+    elif user_id == 'admin':
+        cur = get_db()
+        cur.execute('SELECT * FROM admins WHERE id = %s', (user_id,))
+        g.user = cur.fetchone()
+        close_db()
     else:
         cur = get_db()
         cur.execute('SELECT * FROM users WHERE id = %s', (user_id,))
@@ -274,6 +347,13 @@ def logout():
     session.clear()
     flash('ログアウトしました。', "alert alert-success")
     return redirect(url_for('upload.index'))
+
+@bp.route('/admin_logout')
+def admin_logout():
+    session.clear()
+    flash('ログアウトしました。', "alert alert-success")
+    return redirect(url_for('auth.admin'))
+
 
 def login_required(view):
     @functools.wraps(view)

@@ -191,7 +191,7 @@ def save_ita(file_id):
         videoname = (('{}_{}{}').format(file_id, v_num, exd[0]))
         video.save(os.path.join(UPLOAD_PATH, videoname))
 
-        db.execute('INSERT INTO posts (author_id, file_id, gender, age, created) VALUES(%s,%s,%s,%sCURRENT_TIMESTAMP)', (session.get('user_id'), file_id, gender, age))
+        db.execute('INSERT INTO posts (author_id, file_id, gender, age, created) VALUES(%s,%s,%s,%s,CURRENT_TIMESTAMP)', (session.get('user_id'), file_id, gender, age))
         g.conn.commit()
         upload_drive(foldername=file_id, videopath=filename, videoname=videoname)
         v_num += 1
