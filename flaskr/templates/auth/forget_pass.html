@@ -7,21 +7,14 @@
     <h1>パスワードをお忘れの方</h1>
     <br />
     <p>
-      &emsp;フォーム入力したメールアドレス、リンクが送られてくるので、10分以内に開いて再設定を行ってください。<br />
+      <!--&emsp;フォーム入力したメールアドレス、リンクが送られてくるので、10分以内に開いて再設定を行ってください。<br />
       制限時間を過ぎてしまった場合は、もう1度フォームからメールを受け取ってください。<br /><br />
       ( <b>* メールは迷惑メールのボックスに入っている場合があるので、受信ボックスにない場合は迷惑メールボックスをご確認ください。<br />
-        全くメールが届かない場合は「s18f1005@bene.fit.ac.jp」に、学籍番号を表記してご連絡ください。こちらで変更処理を行い、メールします。</b>)
+        全くメールが届かない場合は「s18f1005@bene.fit.ac.jp」に、学籍番号を表記してご連絡ください。こちらで変更処理を行い、メールします。</b>)-->
+      &emsp;パスワードをお忘れの方は、「<b>s18f1005@bene.fit.ac.jp</b>」まで、<b>学籍番号</b>と<b>用件</b>を記述してご連絡ください。<br />
+      こちらで再設定を行い、対処させて頂きます。
     </p>
     <br />
-  </div>
-  <div class="col-md-8">
-    <form method="post" action="{{ url_for('auth.send_mail_test') }}">
-      <div class="form-group">
-        <label for="email">メールアドレス</label>
-        <input type="email" class="form-control" name="email" id="email" placeholder="email" required>
-      </div>
-      <button type="submit" class="btn btn-primary">送信</button>
-    </form>
   </div>
 </div>
 {% endblock %}

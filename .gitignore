@@ -104,3 +104,5 @@ venv.bak/
 .mypy_cache/
 
 service_account.json
+
+flaskr/templates/auth/new_pass.html

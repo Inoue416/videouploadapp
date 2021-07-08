@@ -9,9 +9,9 @@ from flaskr.db import get_db, close_db
 
 import re
 
-from flask_mail import Mail, Message
+#from flask_mail import Mail, Message
 
-from itsdangerous.url_safe import URLSafeTimedSerializer
+#from itsdangerous.url_safe import URLSafeTimedSerializer
 
 import os
 
@@ -187,7 +187,7 @@ def login():
 def forget_pass():
     return render_template('auth/forget_pass.html')
 
-@bp.route('/send_mail_test', methods=['GET', 'POST'])
+"""@bp.route('/send_mail_test', methods=['GET', 'POST'])
 def send_mail_test():
     if request.method == 'POST':
         email = request.form['email']
@@ -211,9 +211,9 @@ def send_mail_test():
     else:
         flash('エラーが発生しました。', "alert alert-danger")
         return redirect(url_for('auth.forget_pass'))
-    return
+    return"""
 
-@bp.route('/new_pass', methods=["GET", "POST"])
+"""@bp.route('/new_pass', methods=["GET", "POST"])
 def new_pass():
     if request.method == 'POST':
         username = request.form['username']
@@ -254,7 +254,7 @@ def new_pass():
             return redirect(url_for('auth.login'))
         flash(error, "alert alert-danger")
         close_db()
-    return render_template('auth/new_pass.html')
+    return render_template('auth/new_pass.html')"""
 
 @bp.route('/admin', methods=['GET', 'POST'])
 def admin():
