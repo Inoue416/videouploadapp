@@ -13,6 +13,7 @@
     <h5>読みがな:</h5>
     <h5><strong>{{ data['kana'] }}</strong></h5><br />
     <form method="post" action="{{ url_for('upload.save_ita', file_id=file_id) }}" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
       <div class="form-group">
         <div class="mb-3">
           <label for="video" class="form-label"><動画アップロード></label>

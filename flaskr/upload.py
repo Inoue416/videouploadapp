@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, session, make_response, jsonify
+    Blueprint, flash, g, redirect, render_template, request, url_for, session, make_response, jsonify,
 )
 import werkzeug
 
@@ -156,9 +156,9 @@ def save_tweet(file_id):
         videoname = (('{}_{}{}').format(file_id, v_num, exd[0]))
         video.save(os.path.join(UPLOAD_PATH, videoname))
 
+        upload_drive(foldername=file_id, videopath=filename, videoname=videoname)
         db.execute('INSERT INTO posts (author_id, file_id, gender, age, created) VALUES(%s,%s,%s,%s,CURRENT_TIMESTAMP)', (session.get('user_id'), file_id, gender, age))
         g.conn.commit()
-        upload_drive(foldername=file_id, videopath=filename, videoname=videoname)
         v_num += 1
         db.execute('UPDATE tweets SET num = %s, created = CURRENT_TIMESTAMP WHERE file_id = %s', (v_num, file_id))
         g.conn.commit()
@@ -192,9 +192,9 @@ def save_ita(file_id):
         videoname = (('{}_{}{}').format(file_id, v_num, exd[0]))
         video.save(os.path.join(UPLOAD_PATH, videoname))
 
+        upload_drive(foldername=file_id, videopath=filename, videoname=videoname)
         db.execute('INSERT INTO posts (author_id, file_id, gender, age, created) VALUES(%s,%s,%s,%s,CURRENT_TIMESTAMP)', (session.get('user_id'), file_id, gender, age))
         g.conn.commit()
-        upload_drive(foldername=file_id, videopath=filename, videoname=videoname)
         v_num += 1
         db.execute('UPDATE itas SET num = %s, created = CURRENT_TIMESTAMP WHERE file_id = %s', (v_num, file_id))
         g.conn.commit()

@@ -9,6 +9,7 @@
   </div>
   <div class="col-md-8">
     <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
       <div class="form-group">
         <label for="fit_id">学籍番号</label>
         <input type="text" class="form-control" name="fit_id" id="fit_id" aria-describedby="fitIdHelp" placeholder="Enter your student number." required>

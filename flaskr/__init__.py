@@ -4,6 +4,9 @@ from flask import Flask
 
 from datetime import timedelta
 
+from flask_wtf.csrf import CsrfProtect
+
+csrf = CsrfProtect()
 #from flask_mail import Mail
 
 
@@ -49,6 +52,8 @@ def create_app(test_config=None):
     app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
     app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
     app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER')"""
+
+    csrf.init_app(app)
 
     # database
     from . import db
