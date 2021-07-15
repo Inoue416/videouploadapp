@@ -43,7 +43,7 @@ def create_app(test_config=None):
     app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=30)
 
     # アップロードファイルの最大サイズの制限(100MB未満だけ許可)
-    app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
+    app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
 
     # mailの設定
     """app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER')

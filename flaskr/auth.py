@@ -21,9 +21,9 @@ def isalnum(s):
     alnumReg = re.compile(r'^[a-zA-Z0-9]+$')
     return alnumReg.match(s) is not None
 
-def pass_vali(s):
+"""def pass_vali(s):
     vali=re.compile(r'\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{5,100}\Z')
-    return vali.match(s) is not None
+    return vali.match(s) is not None"""
 
 def create_token(user_id, secret_key, salt):
     ''' user_idからtokenを生成
@@ -304,8 +304,8 @@ def admin_reset_pass():
             if not isalnum(fit_id):
                 error = '学籍番号は半角英数字で入力してください。'
 
-            if not pass_vali(password):
-                error = 'パスワード脆弱です。'
+            """if not pass_vali(password):
+                error = 'パスワード脆弱です。'"""
 
             db = get_db()
             db.execute("SELECT * FROM users WHERE fit_id = %s", (fit_id,))
